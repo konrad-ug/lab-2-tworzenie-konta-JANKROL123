@@ -17,3 +17,15 @@ class TestCreateBankAccount(unittest.TestCase):
     def test_niepoprawny_pesel(self):
         konto = Konto(self.imie, "Januszewski", "123")
         self.assertEqual(konto.pesel, "Niepoprawny pesel!")
+
+    def test_z_kodem_promocyjnym(self):
+        konto = Konto(self.imie, "Januszewski", "68042385996", "PROM_100")
+        self.assertEqual(konto.saldo, 50)
+    
+    def test_bez_kodu_promocyjnego(self):
+        konto = Konto(self.imie, "Januszewski", "68042385996")
+        self.assertEqual(konto.saldo, 0)
+    
+    def test_z_niepoprawnym_kodem_promocyjnym(self):
+        konto = Konto(self.imie, "Januszewski", "68042385996", "PROM_123")
+        self.assertEqual(konto.saldo, 0)
