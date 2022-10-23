@@ -14,4 +14,6 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(pierwsze_konto.saldo, 0, "Saldo nie jest zerowe!")
         self.assertEqual(pierwsze_konto.pesel, "68042385996", "Numer pesel nie został zapisany!")
 
-    #tutaj proszę dodawać nowe testy
+    def test_niepoprawny_pesel(self):
+        konto = Konto(self.imie, "Januszewski", "123")
+        self.assertEqual(konto.pesel, "Niepoprawny pesel!")
