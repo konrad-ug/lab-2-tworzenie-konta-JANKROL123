@@ -21,3 +21,7 @@ class Konto:
         self.nazwisko: str = nazwisko
         self.saldo: int = 50 if kod_promocyjny == "PROM_100" and rok_urodzenia > 1960 else 0
         self.pesel: str = pesel if len(pesel) == 11 else "Niepoprawny pesel!"
+    def przelew(self, odbiorca, kwota):
+        if kwota <= self.saldo:
+            odbiorca.saldo += kwota
+            self.saldo -= kwota

@@ -41,3 +41,18 @@ class TestCreateBankAccount(unittest.TestCase):
     def test_konto_seniora_bez_kodu_promocyjnego(self):
         konto = Konto(self.imie, "Senior", "05061047375")
         self.assertEqual(konto.saldo, 0)
+
+class TestTransfer(unittest.TestCase):
+    def test_przelew(self):
+        wysylajacy = Konto("jan", "kowalski", "84100912345")
+        odbiorca = Konto("piotr", "nowak", "68120554321")
+        wysylajacy.saldo = 50
+        wysylajacy.przelew(odbiorca, 10)
+        self.assertEqual(wysylajacy.saldo, 40)
+        self.assertEqual(odbiorca.saldo, 10)
+    def test_przelew_z_za_duza_kwota(self):
+        wysylajacy = Konto("jan", "kowalski", "84100912345")
+        odbiorca = Konto("piotr", "nowak", "68120554321")
+        wysylajacy.przelew(odbiorca, 10)
+        self.assertEqual(wysylajacy.saldo, 0)
+        self.assertEqual(odbiorca.saldo, 0)
