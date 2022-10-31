@@ -1,6 +1,6 @@
 import unittest
 
-from .. import Konto
+from .. import (Konto, KontoFirmowe)
 
 
 class TestCreateBankAccount(unittest.TestCase):
@@ -56,3 +56,12 @@ class TestTransfer(unittest.TestCase):
         wysylajacy.przelew(odbiorca, 10)
         self.assertEqual(wysylajacy.saldo, 0)
         self.assertEqual(odbiorca.saldo, 0)
+
+class TestBusinessAccount(unittest.TestCase):
+    def test_tworzenie_kont_firmowych(self):
+        pierwsze_konto_firmowe = KontoFirmowe("index firma", "1234567890")
+        self.assertEqual(pierwsze_konto_firmowe.nazwa, "index firma")
+        self.assertEqual(pierwsze_konto_firmowe.nip, "1234567890")
+    def test_niepoprawny_nip(self):
+        konto_z_niepoprawnym_nipem = KontoFirmowe("sigma firma", "098765")
+        self.assertEqual(konto_z_niepoprawnym_nipem.nip, "Niepoprawny NIP")

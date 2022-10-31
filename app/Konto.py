@@ -25,3 +25,14 @@ class Konto:
         if kwota <= self.saldo:
             odbiorca.saldo += kwota
             self.saldo -= kwota
+
+class KontoFirmowe:
+    def __init__(self, nazwa, nip):
+        self.nazwa = nazwa
+        self.nip = nip if len(nip) == 10 else "Niepoprawny NIP"
+        self.saldo = 0
+
+    def przelew(self, odbiorca, kwota):
+        if kwota <= self.saldo:
+            odbiorca.saldo += kwota
+            self.saldo -= kwota
