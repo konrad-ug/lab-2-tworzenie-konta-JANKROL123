@@ -4,18 +4,6 @@ from .. import (Konto, KontoFirmowe)
 
 
 class TestCreateBankAccount(unittest.TestCase):
-<<<<<<< HEAD
-    imie = "darek"
-    pesel = "38497392043"
-    def test_tworzenie_konta(self):
-        pierwsze_konto = Konto(self.imie, "Januszewski", self.pesel)
-        self.assertEqual(pierwsze_konto.imie, self.imie, "Imie nie zostało zapisane!")
-        self.assertEqual(pierwsze_konto.nazwisko, "Januszewski", "Nazwisko nie zostało zapisane!")
-        self.assertEqual(pierwsze_konto.saldo, 0, "Saldo nie jest zerowe!")
-        self.assertEqual(pierwsze_konto.pesel, self.pesel, "PESEL nie został podany!")
-        
-    #tutaj proszę dodawać nowe testy
-=======
     def setUp(self):
         self.imie = "darek"
 
@@ -107,4 +95,3 @@ class TestExpressTransfer(unittest.TestCase):
         wysylajacy.przelew_ekspresowy(odbiorca, 15)
         self.assertEqual(wysylajacy.saldo, 10)
         self.assertEqual(odbiorca.saldo, 0)
->>>>>>> 23b74b49167adcc9276e24bb5c09521232f76bd1

@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-class Konto:
-    def __init__(self, imie, nazwisko, pesel):
-        self.imie = imie
-        self.nazwisko = nazwisko
-        self.saldo = 0
-        self.pesel = pesel
-=======
 def oblicz_rok_urodzenia_z_peselu(pesel: str) -> int:
     # https://pl.wikipedia.org/wiki/PESEL#Data_urodzenia
     rok = int(pesel[0:2])
@@ -52,4 +44,3 @@ class KontoFirmowe(KontoPrototyp):
         super().__init__()
         self.nazwa = nazwa
         self.nip = nip if len(nip) == 10 else "Niepoprawny NIP"
->>>>>>> 23b74b49167adcc9276e24bb5c09521232f76bd1
