@@ -14,10 +14,33 @@ def oblicz_rok_urodzenia_z_peselu(pesel: str) -> int:
         rok += 1900
     return rok
 
-class Konto:
+class KontoPrototyp:
+    def __init__(self):
+        self.saldo = 0
+    def przelew_ekspresowy(self, odbiorca, kwota):
+        if kwota <= self.saldo:
+            self.saldo -= (kwota + self.oplata_za_przelew_ekspresowy)
+            odbiorca.saldo += kwota
+    def przelew(self, odbiorca, kwota):
+        if kwota <= self.saldo:
+            odbiorca.saldo += kwota
+            self.saldo -= kwota
+
+class Konto(KontoPrototyp):
+    oplata_za_przelew_ekspresowy = 1
     def __init__(self, imie: str, nazwisko: str, pesel: str, kod_promocyjny: str = None) -> None:
+        super().__init__()
         rok_urodzenia: int = oblicz_rok_urodzenia_z_peselu(pesel)
         self.imie: str = imie
         self.nazwisko: str = nazwisko
         self.saldo: int = 50 if kod_promocyjny == "PROM_100" and rok_urodzenia > 1960 else 0
         self.pesel: str = pesel if len(pesel) == 11 else "Niepoprawny pesel!"
+
+
+
+class KontoFirmowe(KontoPrototyp):
+    oplata_za_przelew_ekspresowy = 5
+    def __init__(self, nazwa, nip):
+        super().__init__()
+        self.nazwa = nazwa
+        self.nip = nip if len(nip) == 10 else "Niepoprawny NIP"

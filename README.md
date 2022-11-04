@@ -77,4 +77,32 @@ Podpowiedź 2: Może warto dodatkową logikę przenieść do oddzielnej metody?
 Po zakończeniu proszę wystawić PR i przypisać mnie do review.
 By uzyskać pełną ilość punktów (10) PR powinien być wsyatwiony do 26.10.2022 do godziny 23:00.
 
+Feature 6 Przelewy:
+Podstawowym zadaniem konta bankowego jest dokonywanie i otrzymywanie przelewów.
+Musimy zaimplementować mechanizm odpowiedzialny za księgowanie przelewów
+wychodzących i przychodzących.
+Na chwile obecną interesuje nas tylko kwota przelewu.
+Podpowiedź 1: co powinno zmienić się na naszym koncie po wykonaniu przelewu?
+Podpowiedź 2: żeby zachować porządek proszę utworzyć nową klasę z testami
+Podpowiedź 3: jaki musi być spełniony warunek, aby użytkownik mógł dokonać przelewu
+wychodzącego?
+
+
+Feature 7 Konta firmowe:
+Nasz bank chce wprowadzić ofertę kont firmowych. Konto firmowe na chwile obecną będzie
+różnić się tym że zamiast:
+- imienia, nazwiska, peselu
+konto powinno przechowywać:
+- nazwę firmy i NIP.
+Konta firmowe nie są objęte promocją.
+W przypadku gdy NIP ma długość inną niż 10 cyfr – w polu NIP zapiszemy wiadomość
+„Niepoprawny NIP!”.
+Podpowiedź: proszę pamiętać, że programujemy obiektowo.
+
+
+Feature 8 Przelew ekspresowy:
+Nasz bank wprowadza „przelew ekspresowy”, opłat za zaksięgowanie takiego przelewu
+wychodzącego to dla kont zwykłych 1zł, a dla kont biznesowych 5zł. Opłata pomniejsza saldo na
+koncie. Opłata pobierana jest w tym samym momencie co kwota przelewu. W tym wypadku
+saldo może zejść poniżej 0 (maksymalnie o kwotę opłaty).
  
