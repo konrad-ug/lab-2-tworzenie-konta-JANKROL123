@@ -17,14 +17,21 @@ def oblicz_rok_urodzenia_z_peselu(pesel: str) -> int:
 class KontoPrototyp:
     def __init__(self):
         self.saldo = 0
+        self.historia = []
+        self.historia_przelewow_ekspresowych = []
     def przelew_ekspresowy(self, odbiorca, kwota):
         if kwota <= self.saldo:
             self.saldo -= (kwota + self.oplata_za_przelew_ekspresowy)
             odbiorca.saldo += kwota
+            self.historia.append(-kwota)
+            odbiorca.historia.append(kwota)
+            self.historia_przelewow_ekspresowych.append(-self.oplata_za_przelew_ekspresowy)
     def przelew(self, odbiorca, kwota):
         if kwota <= self.saldo:
             odbiorca.saldo += kwota
             self.saldo -= kwota
+            self.historia.append(-kwota)
+            odbiorca.historia.append(kwota)
 
 class Konto(KontoPrototyp):
     oplata_za_przelew_ekspresowy = 1

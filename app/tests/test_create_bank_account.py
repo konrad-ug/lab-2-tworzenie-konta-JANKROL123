@@ -95,3 +95,28 @@ class TestExpressTransfer(unittest.TestCase):
         wysylajacy.przelew_ekspresowy(odbiorca, 15)
         self.assertEqual(wysylajacy.saldo, 10)
         self.assertEqual(odbiorca.saldo, 0)
+class TestHistory(unittest.TestCase):
+    def test_historii_przelewu(self):
+        konto1 = Konto("jan", "kowalski", "12345678909")
+        konto2 = Konto("piotr", "nowak", "00987654321")
+        konto1.saldo = 10
+        konto1.przelew(konto2, 3)
+        self.assertEqual(konto1.historia, [-3])
+        self.assertEqual(konto2.historia, [3])
+    def test_historii_przelewu_ekspresowego(self):
+        konto1 = Konto("jan", "kowalski", "12345678909")
+        konto2 = Konto("piotr", "nowak", "00987654321")
+        firma1 = KontoFirmowe("firma1", "1234567890")
+        firma2 = KontoFirmowe("firma2", "0234567890")
+        konto1.saldo = 10
+        firma1.saldo = 10
+        konto1.przelew_ekspresowy(konto2, 3)
+        firma1.przelew_ekspresowy(firma2, 2)
+        self.assertEqual(konto1.historia, [-3])
+        self.assertEqual(konto2.historia, [3])
+        self.assertEqual(konto1.historia_przelewow_ekspresowych, [-1])
+        self.assertEqual(konto2.historia_przelewow_ekspresowych, [])
+        self.assertEqual(firma1.historia, [-2])
+        self.assertEqual(firma2.historia, [2])
+        self.assertEqual(firma1.historia_przelewow_ekspresowych, [-5])
+        self.assertEqual(firma2.historia_przelewow_ekspresowych, [])
