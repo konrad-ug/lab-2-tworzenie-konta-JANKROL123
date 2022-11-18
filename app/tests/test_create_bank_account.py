@@ -120,3 +120,7 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(firma2.historia, [2])
         self.assertEqual(firma1.historia_przelewow_ekspresowych, [-5])
         self.assertEqual(firma2.historia_przelewow_ekspresowych, [])
+class TestKredyt(unittest.TestCase):
+    def test_kredyt(self):
+        konto = Konto("jan", "kowalski", "0192837465")
+        
