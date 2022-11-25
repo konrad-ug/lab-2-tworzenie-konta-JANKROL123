@@ -1,6 +1,6 @@
 import unittest
 
-from .. import (Konto, KontoFirmowe)
+from .. import (Konto, KontoFirmowe, RejestrKont)
 
 
 class TestCreateBankAccount(unittest.TestCase):
@@ -120,4 +120,10 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(firma2.historia, [2])
         self.assertEqual(firma1.historia_przelewow_ekspresowych, [-5])
         self.assertEqual(firma2.historia_przelewow_ekspresowych, [])
-        
+class TestRejestrKont(unittest.TestCase):
+    def test_tworzenie_rejestru(self):
+        konto = Konto("jan", "kowalski", "12345678904")
+        RejestrKont.dodaj_konto(konto)
+        self.assertEqual(RejestrKont.znajdz_po_peselu("12345678904"), konto)
+        self.assertEqual(RejestrKont.znajdz_po_peselu("12345578904"), None)
+        self.assertEqual(RejestrKont.liczba_kont(), 1)
