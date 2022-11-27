@@ -1,6 +1,7 @@
 import unittest
 
 from .. import (Konto, KontoFirmowe, RejestrKont)
+from parameterized import parameterized, parameterized_class
 
 
 class TestCreateBankAccount(unittest.TestCase):
@@ -120,6 +121,27 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(firma2.historia, [2])
         self.assertEqual(firma1.historia_przelewow_ekspresowych, [-5])
         self.assertEqual(firma2.historia_przelewow_ekspresowych, [])
+class TestZaciaganieKredytu(unittest.TestCase):
+    def setUp(self) -> None:
+        self.konto = Konto("jan", "kowalski", "00987654321")
+
+    @parameterized.expand([
+        ([], 500, False),
+        ([3, 4, 10, 30, 20, 12], 50, True),
+        ([3, 4, 10, 30, 20, 12, -1], 3, False),
+        ([3, 4, 10, 30, 20, 12, 1], 3000, False)
+    ])
+    def test_zaciaganie_kredytu(self, historia: list[int], kwota_kredytu: int, oczekiwany_wynik: bool):
+        self.konto.historia = historia
+        stare_saldo = self.konto.saldo
+        self.assertEqual(self.konto.zaciagnij_kredyt(kwota_kredytu), oczekiwany_wynik)
+        nowe_saldo = self.konto.saldo
+        if oczekiwany_wynik:
+            self.assertEqual(nowe_saldo, stare_saldo + kwota_kredytu)
+        else:
+            self.assertEqual(nowe_saldo, stare_saldo)
+
+
 class TestRejestrKont(unittest.TestCase):
     def test_tworzenie_rejestru(self):
         konto = Konto("jan", "kowalski", "12345678904")
