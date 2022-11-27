@@ -1,6 +1,7 @@
 import unittest
 
 from .. import (Konto, KontoFirmowe, RejestrKont)
+from parameterized import parameterized, parameterized_class
 
 
 class TestCreateBankAccount(unittest.TestCase):
@@ -121,22 +122,25 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(firma1.historia_przelewow_ekspresowych, [-5])
         self.assertEqual(firma2.historia_przelewow_ekspresowych, [])
 class TestZaciaganieKredytu(unittest.TestCase):
-    def test_kredyt_nie_udzielony_bo_za_krotka_historia(self):
-        konto = Konto("jan", "kowalski", "00987654321")
-        self.assertEqual(konto.zaciagnij_kredyt(500), False)
-    def test_kredyt_udzielony(self):
-        konto = Konto("jan", "kowalski", "00987654321")
-        konto.historia = [3, 4, 10, 30, 20, 12]
-        self.assertEqual(konto.zaciagnij_kredyt(50), True)
-        self.assertEqual(konto.saldo, 50)
-    def test_kredyt_nie_udzielony_bo_wyplacone_w_3_ostatnich(self):
-        konto = Konto("jan","kowalski", "00987654321")
-        konto.historia = konto.historia = [3, 4, 10, 30, 20, 12, -1]
-        self.assertEqual(konto.zaciagnij_kredyt(3), False)
-    def test_kredyt_nie_udzielony_bo_suma_pieciu_ostatnich_mniejsza_od_kwoty(self):
-        konto = Konto("jan","kowalski", "00987654321")
-        konto.historia = konto.historia = [3, 4, 10, 30, 20, 12, 1]
-        self.assertEqual(konto.zaciagnij_kredyt(3000), False)
+    def setUp(self) -> None:
+        self.konto = Konto("jan", "kowalski", "00987654321")
+
+    @parameterized.expand([
+        ([], 500, False),
+        ([3, 4, 10, 30, 20, 12], 50, True),
+        ([3, 4, 10, 30, 20, 12, -1], 3, False),
+        ([3, 4, 10, 30, 20, 12, 1], 3000, False)
+    ])
+    def test_zaciaganie_kredytu(self, historia: list[int], kwota_kredytu: int, oczekiwany_wynik: bool):
+        self.konto.historia = historia
+        stare_saldo = self.konto.saldo
+        self.assertEqual(self.konto.zaciagnij_kredyt(kwota_kredytu), oczekiwany_wynik)
+        nowe_saldo = self.konto.saldo
+        if oczekiwany_wynik:
+            self.assertEqual(nowe_saldo, stare_saldo + kwota_kredytu)
+        else:
+            self.assertEqual(nowe_saldo, stare_saldo)
+
 
 class TestRejestrKont(unittest.TestCase):
     def test_tworzenie_rejestru(self):
