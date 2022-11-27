@@ -1,7 +1,7 @@
 import unittest
 
 from .. import (Konto, KontoFirmowe, RejestrKont)
-from parameterized import parameterized, parameterized_class
+from parameterized import parameterized, parameterized_class  # type: ignore
 
 
 class TestCreateBankAccount(unittest.TestCase):
@@ -133,6 +133,7 @@ class TestZaciaganieKredytu(unittest.TestCase):
     ])
     def test_zaciaganie_kredytu(self, historia: list[int], kwota_kredytu: int, oczekiwany_wynik: bool):
         self.konto.historia = historia
+        self.konto.saldo = sum(historia)
         stare_saldo = self.konto.saldo
         self.assertEqual(self.konto.zaciagnij_kredyt(kwota_kredytu), oczekiwany_wynik)
         nowe_saldo = self.konto.saldo
@@ -141,6 +142,25 @@ class TestZaciaganieKredytu(unittest.TestCase):
         else:
             self.assertEqual(nowe_saldo, stare_saldo)
 
+class TestKredytFirmowy(unittest.TestCase):
+    def setUp(self) -> None:
+        self.firma = KontoFirmowe("firma1", "1234567890")
+    @parameterized.expand([
+        ([], 10, False),
+        ([-1775,12,14, 2000], 10, True),
+        ([12,14], 10, False),
+        ([-1775, 2000], 10000, False)
+    ])
+    def test_zaciaganie_kredytu_firmowego(self, historia: list[int], kwota_kredytu: int, oczekiwany_wynik: bool): 
+        self.firma.historia = historia
+        self.firma.saldo = sum(historia)
+        stare_saldo = self.firma.saldo
+        self.assertEqual(self.firma.zaciagnij_kredyt(kwota_kredytu), oczekiwany_wynik)
+        nowe_saldo = self.firma.saldo
+        if oczekiwany_wynik:
+            self.assertEqual(nowe_saldo, stare_saldo + kwota_kredytu)
+        else: 
+            self.assertEqual(nowe_saldo, stare_saldo)
 
 class TestRejestrKont(unittest.TestCase):
     def test_tworzenie_rejestru(self):

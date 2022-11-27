@@ -65,7 +65,17 @@ class KontoFirmowe(KontoPrototyp):
         super().__init__()
         self.nazwa = nazwa
         self.nip = nip if len(nip) == 10 else "Niepoprawny NIP"
-
+    def zaciagnij_kredyt(self, kwota_kredytu):
+        if self.saldo < 2*kwota_kredytu:
+            return False
+        status = False
+        for transakcja in self.historia:
+            if transakcja == -1775:
+                status = True 
+                break
+        if status:
+            self.saldo += kwota_kredytu
+        return status
 class RejestrKont:
     lista_kont: list[Konto] = []
     @classmethod
