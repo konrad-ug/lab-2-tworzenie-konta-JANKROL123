@@ -53,7 +53,7 @@ class KontoFirmowe(KontoPrototyp):
         self.nip = nip if len(nip) == 10 else "Niepoprawny NIP"
 
 class RejestrKont:
-    lista_kont = []
+    lista_kont: list[Konto] = []
     @classmethod
     def dodaj_konto(cls, konto):
         cls.lista_kont.append(konto)
