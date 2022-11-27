@@ -1,1 +1,1 @@
-from .Konto import (Konto, KontoFirmowe, RejestrKont)
+from .Konto import (Konto, KontoFirmowe)

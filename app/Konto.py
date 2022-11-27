@@ -76,19 +76,3 @@ class KontoFirmowe(KontoPrototyp):
         if status:
             self.saldo += kwota_kredytu
         return status
-class RejestrKont:
-    lista_kont: list[Konto] = []
-    @classmethod
-    def dodaj_konto(cls, konto):
-        cls.lista_kont.append(konto)
-    @classmethod
-    def znajdz_po_peselu(cls, pesel):
-        szukane_konto = None
-        for konto in cls.lista_kont:
-            if konto.pesel == pesel:
-                szukane_konto = konto
-        return szukane_konto
-    @classmethod
-    def liczba_kont(cls):
-        return len(cls.lista_kont)
-    

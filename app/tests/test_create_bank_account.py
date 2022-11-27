@@ -1,7 +1,6 @@
 import unittest
-
-from .. import (Konto, KontoFirmowe, RejestrKont)
 from parameterized import parameterized, parameterized_class  # type: ignore
+from .. import (Konto, KontoFirmowe)
 
 
 class TestCreateBankAccount(unittest.TestCase):
@@ -162,10 +161,4 @@ class TestKredytFirmowy(unittest.TestCase):
         else: 
             self.assertEqual(nowe_saldo, stare_saldo)
 
-class TestRejestrKont(unittest.TestCase):
-    def test_tworzenie_rejestru(self):
-        konto = Konto("jan", "kowalski", "12345678904")
-        RejestrKont.dodaj_konto(konto)
-        self.assertEqual(RejestrKont.znajdz_po_peselu("12345678904"), konto)
-        self.assertEqual(RejestrKont.znajdz_po_peselu("12345578904"), None)
-        self.assertEqual(RejestrKont.liczba_kont(), 1)
+
