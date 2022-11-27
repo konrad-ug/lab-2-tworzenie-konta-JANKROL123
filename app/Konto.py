@@ -42,7 +42,21 @@ class Konto(KontoPrototyp):
         self.nazwisko: str = nazwisko
         self.saldo: int = 50 if kod_promocyjny == "PROM_100" and rok_urodzenia > 1960 else 0
         self.pesel: str = pesel if len(pesel) == 11 else "Niepoprawny pesel!"
-
+    def zaciagnij_kredyt(self, kwota):
+        if len(self.historia) < 5:
+            return False
+        trzy_ostatnie = self.historia[-3:]
+        piec_ostatnich = self.historia[-5:]
+        suma_pieciu_ostatnich = 0
+        for transakcja in trzy_ostatnie:
+            if transakcja < 0:
+                return False
+        for kwota_transakcji in piec_ostatnich:
+            suma_pieciu_ostatnich += kwota_transakcji
+        if suma_pieciu_ostatnich <= kwota:
+            return False 
+        self.saldo += kwota
+        return True
 
 
 class KontoFirmowe(KontoPrototyp):

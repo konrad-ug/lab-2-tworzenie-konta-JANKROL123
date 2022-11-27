@@ -120,6 +120,24 @@ class TestHistory(unittest.TestCase):
         self.assertEqual(firma2.historia, [2])
         self.assertEqual(firma1.historia_przelewow_ekspresowych, [-5])
         self.assertEqual(firma2.historia_przelewow_ekspresowych, [])
+class TestZaciaganieKredytu(unittest.TestCase):
+    def test_kredyt_nie_udzielony_bo_za_krotka_historia(self):
+        konto = Konto("jan", "kowalski", "00987654321")
+        self.assertEqual(konto.zaciagnij_kredyt(500), False)
+    def test_kredyt_udzielony(self):
+        konto = Konto("jan", "kowalski", "00987654321")
+        konto.historia = [3, 4, 10, 30, 20, 12]
+        self.assertEqual(konto.zaciagnij_kredyt(50), True)
+        self.assertEqual(konto.saldo, 50)
+    def test_kredyt_nie_udzielony_bo_wyplacone_w_3_ostatnich(self):
+        konto = Konto("jan","kowalski", "00987654321")
+        konto.historia = konto.historia = [3, 4, 10, 30, 20, 12, -1]
+        self.assertEqual(konto.zaciagnij_kredyt(3), False)
+    def test_kredyt_nie_udzielony_bo_suma_pieciu_ostatnich_mniejsza_od_kwoty(self):
+        konto = Konto("jan","kowalski", "00987654321")
+        konto.historia = konto.historia = [3, 4, 10, 30, 20, 12, 1]
+        self.assertEqual(konto.zaciagnij_kredyt(3000), False)
+
 class TestRejestrKont(unittest.TestCase):
     def test_tworzenie_rejestru(self):
         konto = Konto("jan", "kowalski", "12345678904")
