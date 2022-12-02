@@ -7,10 +7,13 @@ app = Flask(__name__)
 @app.route("/konta/stworz_konto", methods=['POST'])
 def stworz_konto():
     dane = request.get_json()
-    print(f"Request o stworzenie konta z danymi: {dane}")
     konto = Konto(dane["imie"], dane["nazwisko"], dane["pesel"])
-    RejestrKont.dodaj_konto(konto)
-    return jsonify("Konto stworzone"), 201
+    wynik = RejestrKont.dodaj_konto(konto)
+    if wynik == "Konto dodane":
+        return jsonify("Konto stworzone"), 201
+    else:
+        return jsonify({"error": "Konto z tym peselem juz istnieje"}), 400
+    
 
 @app.route("/konta/ile_kont", methods=['GET'])
 def ile_kont():

@@ -11,7 +11,7 @@ class TestRejestrKont(unittest.TestCase):
 	def tearDownClass(cls):
 		RejestrKont.konta_osobiste = []
     
-	def test_rejestr_kont(self):
+	def test_1_rejestr_kont(self):
 		self.assertEqual(RejestrKont.liczba_kont(), 1)
 		konto_jana = RejestrKont.znajdz_po_peselu("09876543212")
 		self.assertEqual(konto_jana.imie, "Jan")
@@ -26,3 +26,4 @@ class TestRejestrKont(unittest.TestCase):
 		self.assertEqual(konto_krzysztofa.pesel, "12345678901")
 		konto_adama = RejestrKont.znajdz_po_peselu("00345678901")
 		self.assertIsNone(konto_adama)
+

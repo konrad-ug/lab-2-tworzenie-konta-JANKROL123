@@ -4,7 +4,11 @@ class RejestrKont:
 	konta_osobiste: list[Konto] = []
 	@classmethod
 	def dodaj_konto(cls, konto: Konto):
+		for istniejace_konto in cls.konta_osobiste:
+			if istniejace_konto.pesel == konto.pesel:
+				return "Konto istnieje"
 		cls.konta_osobiste.append(konto)
+		return "Konto dodane"
 	@classmethod
 	def znajdz_po_peselu(cls, pesel: str) -> Konto | None:
 		for konto in cls.konta_osobiste:
