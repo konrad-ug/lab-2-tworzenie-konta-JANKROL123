@@ -14,3 +14,10 @@ class RejestrKont:
 	@classmethod
 	def liczba_kont(cls) -> int:
 		return len(cls.konta_osobiste)
+	@classmethod
+	def usun_konto(cls, pesel: str):
+		for konto in cls.konta_osobiste:
+			if konto.pesel == pesel:
+				cls.konta_osobiste.remove(konto)
+				return "Usuniete"
+		return None
