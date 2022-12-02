@@ -31,4 +31,3 @@ class TestObslugaKont(unittest.TestCase):
     def test_4_usuwanie_konta(self):
         r = requests.delete("http://localhost:5000/konta/konto/"+self.konto["pesel"])
         self.assertEqual(r.status_code, 200)
-
