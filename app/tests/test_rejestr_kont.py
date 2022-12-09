@@ -26,4 +26,10 @@ class TestRejestrKont(unittest.TestCase):
 		self.assertEqual(konto_krzysztofa.pesel, "12345678901")
 		konto_adama = RejestrKont.znajdz_po_peselu("00345678901")
 		self.assertIsNone(konto_adama)
-
+	def test_2_liczba_kont(self):
+		self.assertEqual(RejestrKont.liczba_kont(), 2)
+	def test_3_znajdz_po_peselu(self):
+		self.assertEqual(RejestrKont.znajdz_po_peselu("570192345678"), None)
+	def test_4_usun_konto(self):
+		self.assertEqual(RejestrKont.usun_konto("570192345678"), None)
+		
