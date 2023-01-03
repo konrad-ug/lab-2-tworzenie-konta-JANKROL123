@@ -1,3 +1,9 @@
+import os
+from datetime import date
+
+import requests
+
+
 def oblicz_rok_urodzenia_z_peselu(pesel: str) -> int:
     # https://pl.wikipedia.org/wiki/PESEL#Data_urodzenia
     rok = int(pesel[0:2])
@@ -65,6 +71,8 @@ class KontoFirmowe(KontoPrototyp):
         super().__init__()
         self.nazwa = nazwa
         self.nip = nip if len(nip) == 10 else "Niepoprawny NIP"
+        if self.nip == nip:
+            self.sprawdz_w_ministerstwie()
     def zaciagnij_kredyt(self, kwota_kredytu):
         if self.saldo < 2*kwota_kredytu:
             return False
@@ -76,3 +84,14 @@ class KontoFirmowe(KontoPrototyp):
         if status:
             self.saldo += kwota_kredytu
         return status
+    def sprawdz_w_ministerstwie(self):
+        gov_url = os.getenv("BANK_APP_MF_NIP", "https://wl-api.mf.gov.pl/")
+        data = date.today()
+        zapytanie = requests.get(f"{gov_url}api/search/nip/{self.nip}?date={data}")
+        if zapytanie.status_code == 200 and zapytanie.json["result"]["subject"] != None: 
+            pass
+        elif zapytanie.status_code == 200 and zapytanie.json["result"]["subject"] == None: 
+            self.nip = "Pranie"
+        else:
+            raise Exception("Nie można połączyć się z ministerstwem finansów")
+        
